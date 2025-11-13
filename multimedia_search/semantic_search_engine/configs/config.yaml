@@ -1,0 +1,57 @@
+data:
+  dataset_path: /MultiMediaSearch/gamegator_dataset_28k
+
+model:
+  use_image_encoder: True
+  model_name: 'vit_base_patch16_224'
+  image_embedding: 768
+  image_size: 224
+
+  use_video_encoder: False
+  video_encoder_model: "MCG-NJU/videomae-base"
+  video_embedding: 768
+
+  text_encoder_model: 'distilbert-base-uncased'
+  text_tokenizer: 'distilbert-base-uncased'
+  text_embedding: 768
+  max_length: 512
+
+  pretrained: True
+  trainable_encoder_and_tokenizer: True
+
+  num_projection_layers: 1
+  projection_dim: 256
+  dropout: 0.1
+
+hyper-parameters:
+  num_epochs: 5
+  temperature: 1.0
+  batch_size: 4
+  num_workers: 8
+  precision: 16
+
+  image_encoder_lr: 1e-4
+  text_encoder_lr: 1e-5
+  head_lr: 1e-3
+  weight_decay: 1e-3
+
+  scheduler_patience: 3
+  scheduler_factor: 0.1
+
+similarity_parameters:
+  text_similarity_weight: 1.0
+  image_similarity_weight: 0.2
+  genre_similarity_weight: 0.4
+  platform_similarity_weight: 1.0
+  mode_similarity_weight: 0.4
+  theme_similarity_weight: 0.4
+  aggregate_similarity_threshold: 2.5
+  max_similar_game_size: 20
+
+logging:
+  checkpoint_dir: /MultiMediaSearch/vis_transformer_clip_checkpoints
+  wandb:
+    project_name: red_gamegator_vis_transformer_clip
+    experiment_name: vis_transformer_clip_v2
+    save_dir: MultiMediaSearch/vis_transformer_clip_checkpoints
+    version: 0.0.1
